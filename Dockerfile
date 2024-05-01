@@ -1,3 +1,11 @@
+FROM composer:2.7 AS build
+
+WORKDIR /usr/app
+
+COPY . .
+
+RUN composer install
+
 ARG PHP_VERSION=7.4
 FROM php:${PHP_VERSION}-apache
 
@@ -46,6 +54,6 @@ RUN a2enmod rewrite expires
 
 VOLUME /var/www/html
 
-COPY --chown=www-data:www-data . /var/www/html
+COPY --from=build --chown=www-data:www-data . /var/www/html
 
 CMD ["apache2-foreground"]
