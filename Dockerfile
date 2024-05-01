@@ -1,3 +1,4 @@
+ARG PHP_VERSION=7.4
 FROM composer:2.7 AS build
 
 WORKDIR /usr/app
@@ -6,7 +7,6 @@ COPY . .
 
 RUN composer install
 
-ARG PHP_VERSION=7.4
 FROM php:${PHP_VERSION}-apache
 
 # install the PHP extensions we need
